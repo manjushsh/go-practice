@@ -8,10 +8,12 @@ import (
 
 func main() {
 	fmt.Println("=== LINEAR START ===")
+	fmt.Println(">> STACK <<")
 	stack := linear.NewStack()
 	stack.Push(1)
 	fmt.Printf("Top on stack: %d\n", stack.Peek())
 
+	fmt.Println(">> QUEUE <<")
 	queue := linear.NewQueue()
 	queue.Enqueue(6)
 	queue.Enqueue(3)
@@ -19,6 +21,7 @@ func main() {
 	removed := queue.Dequeue()
 	fmt.Printf("Queue peek after removing %d is: %d\n", removed, queue.Peek())
 
+	fmt.Println(">> SINGLE LINKED LIST <<")
 	slist := linear.NewSingleLinkedList()
 	slist.InsertAsTail(1)
 	slist.InsertAsTail(2)
@@ -29,6 +32,15 @@ func main() {
 	fmt.Printf("List head: %d\n", slist.Peek())
 	slist.RemoveByValue(2)
 	slist.Print()
+
+	fmt.Println(">> DOUBLE LINKED LIST <<")
+	dlist := linear.NewDoubleLinkedList()
+	dlist.Insert(1)
+	dlist.Insert(2)
+	dlist.Insert(3)
+	dlist.InsertAsHead(4)
+	dlist.InsertBeforeAValue(5, 3)
+	dlist.Print()
 
 	fmt.Println("=== LINEAR END ===")
 
