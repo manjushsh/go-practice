@@ -113,3 +113,34 @@ func (l *DoubleLinkedList) InsertBeforeAValue(valueToStore, valueToFind int) int
 	fmt.Println("Value not found.")
 	return -1
 }
+
+func (l *DoubleLinkedList) InsertAtIndex(numberToInsert, indexToInsertAt int) int {
+	if l.IsFull() {
+		fmt.Println("Linked list is full.")
+		return -1
+	}
+	if indexToInsertAt < 0 || indexToInsertAt > l.linkedListLength {
+		fmt.Println("Invalid index.")
+		return -1
+	}
+	if indexToInsertAt == 0 {
+		return l.InsertAsHead(numberToInsert)
+	}
+	if indexToInsertAt == l.linkedListLength {
+		return l.Insert(numberToInsert)
+	}
+
+	newNode := l.createANode(numberToInsert)
+	currentNode := l.head
+	for i := 0; i < indexToInsertAt; i++ {
+		currentNode = currentNode.next
+	}
+	newNode.next = currentNode
+	newNode.previous = currentNode.previous
+	if currentNode.previous != nil {
+		currentNode.previous.next = newNode
+	}
+	currentNode.previous = newNode
+	l.linkedListLength++
+	return indexToInsertAt
+}
