@@ -37,9 +37,8 @@ func (l *DoubleLinkedList) createANode(numberToInsert int) *DLNode {
 
 func (l *DoubleLinkedList) Print() {
 	fmt.Print("Linked List data: ")
-	for currentNode := l.head; currentNode != nil; {
+	for currentNode := l.head; currentNode != nil; currentNode = currentNode.next {
 		fmt.Printf("%d ", currentNode.data)
-		currentNode = currentNode.next
 	}
 	fmt.Println()
 }
@@ -92,8 +91,7 @@ func (l *DoubleLinkedList) InsertBeforeAValue(valueToStore, valueToFind int) int
 	}
 
 	index := 0
-	currentNode := l.head
-	for currentNode != nil {
+	for currentNode := l.head; currentNode != nil; currentNode = currentNode.next {
 		if currentNode.data == valueToFind {
 			newNode := l.createANode(valueToStore)
 			newNode.next = currentNode
@@ -107,7 +105,6 @@ func (l *DoubleLinkedList) InsertBeforeAValue(valueToStore, valueToFind int) int
 			l.linkedListLength++
 			return index
 		}
-		currentNode = currentNode.next
 		index++
 	}
 	fmt.Println("Value not found.")
@@ -143,4 +140,70 @@ func (l *DoubleLinkedList) InsertAtIndex(numberToInsert, indexToInsertAt int) in
 	currentNode.previous = newNode
 	l.linkedListLength++
 	return indexToInsertAt
+}
+
+func (l *DoubleLinkedList) RemoveHead() int {
+	if l.IsEmpty() {
+		fmt.Println("Linked List is empty.")
+		return -1
+	}
+	if l.head.next == nil {
+		l.head = nil
+	} else {
+		l.head = l.head.next
+		l.head.previous = nil
+	}
+	l.linkedListLength--
+	return 0
+}
+
+func (l *DoubleLinkedList) Remove() int {
+	if l.IsEmpty() {
+		fmt.Println("Linked List is empty.")
+		return -1
+	}
+
+	currentNode := l.head
+	for currentNode.next != nil {
+		currentNode = currentNode.next
+	}
+	if currentNode.previous != nil {
+		currentNode.previous.next = nil
+	} else {
+		l.head = nil
+	}
+	l.linkedListLength--
+	return l.linkedListLength
+}
+
+func (l *DoubleLinkedList) RemoveAtIndex(indexToRemoveAt int) int {
+	if l.IsEmpty() {
+		fmt.Println("Linked List is empty.")
+		return -1
+	}
+
+	if indexToRemoveAt < 0 || indexToRemoveAt >= l.linkedListLength {
+		fmt.Println("Please provide a valid index.")
+		return -1
+	}
+
+	if indexToRemoveAt == 0 {
+		return l.RemoveHead()
+	}
+
+	currentNode := l.head
+	for i := 0; i < indexToRemoveAt; i++ {
+		currentNode = currentNode.next
+	}
+
+	if currentNode.next != nil {
+		currentNode.next.previous = currentNode.previous
+	}
+	if currentNode.previous != nil {
+		currentNode.previous.next = currentNode.next
+	} else {
+		l.head = currentNode.next
+	}
+	l.linkedListLength--
+	return indexToRemoveAt
 }
