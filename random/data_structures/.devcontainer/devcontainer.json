@@ -1,0 +1,16 @@
+{
+    "name": "Data Structures",
+    "dockerFile": "../Dockerfile",
+    "appPort": 8000,
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "ms-vscode.go"
+            ],
+            "settings": {
+                "go.useLanguageServer": true
+            }
+        }
+    },
+    "postCreateCommand": "go mod download"
+}
