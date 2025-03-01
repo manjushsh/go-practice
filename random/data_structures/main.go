@@ -3,10 +3,11 @@ package main
 import (
 	"fmt"
 
+	"github.com/manjushsh/go-practice/random/data_structures/algorithms"
 	"github.com/manjushsh/go-practice/random/data_structures/linear"
 )
 
-func main() {
+func testLinear() {
 	fmt.Println("=== LINEAR START ===")
 	fmt.Println(">> STACK <<")
 	stack := linear.NewStack()
@@ -43,5 +44,17 @@ func main() {
 	dlist.Print()
 
 	fmt.Println("=== LINEAR END ===")
+}
 
+func testAlgorithms() {
+
+	// Test IsNumInList
+	fmt.Println("=== ALGORITHMS START ===")
+	list := []int{1, 2, 3, 4, 5}
+	fmt.Println(algorithms.IsNumInList(list, 3))
+	fmt.Println(algorithms.IsNumInList(list, 6))
+}
+
+func main() {
+	testAlgorithms()
 }
