@@ -1,0 +1,19 @@
+{
+    "name": "Data Structures",
+    "dockerFile": "../Dockerfile",
+    "appPort": 8000,
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "dbaeumer.vscode-eslint",
+                "esbenp.prettier-vscode",
+                "ms-azuretools.vscode-docker",
+                "ms-vscode.go"
+            ],
+            "settings": {
+                "go.useLanguageServer": true
+            }
+        }
+    },
+    "postCreateCommand": "go mod download"
+}
