@@ -48,11 +48,18 @@ func testLinear() {
 
 func testAlgorithms() {
 
-	// Test IsNumInList
 	fmt.Println("=== ALGORITHMS START ===")
 	list := []int{1, 2, 3, 4, 5}
+
+	// Test IsNumInList
 	fmt.Println(algorithms.IsNumInList(list, 3))
 	fmt.Println(algorithms.IsNumInList(list, 6))
+
+	// Test SumAllNumList
+	fmt.Println(algorithms.SumAllNumList(list))
+	fmt.Println(algorithms.SumAllNumList(nil))
+	fmt.Println(algorithms.SumAllNumListRecursive(list))
+
 }
 
 func main() {
