@@ -1,4 +1,4 @@
-const apiUrl = 'https://go-song-album.onrender.com';
+const apiUrl = 'http://localhost:8080'; // 'https://go-song-album.onrender.com';
 let authToken = localStorage.getItem('authToken');
 let isLoading = false;
 
@@ -12,7 +12,12 @@ async function login() {
 
     try {
         isLoading = true;
-        const data = await fetchData(`${apiUrl}/auth/login`, 'POST', { username, password });
+        const data = await fetchData({
+            url: `${apiUrl}/auth/login`,
+            method: 'POST',
+            body: { username, password },
+            noAuth: true
+        });
         authToken = data.token;
         localStorage.setItem('authToken', authToken);
         fetchAlbums().finally(() => isLoading = false);
@@ -26,7 +31,12 @@ async function register() {
     if (!username || !password || !rpassword) return alert('Please enter a username and password');
 
     try {
-        await fetchData(`${apiUrl}/auth/register`, 'POST', { username, password });
+        await fetchData({
+            url: `${apiUrl}/auth/register`, 
+            method: 'POST', 
+            body: { username, password },
+            noAuth: true,
+        });
         alert('User registered successfully');
     } catch (error) {
         alert(error.message);
@@ -36,7 +46,9 @@ async function register() {
 async function fetchAlbums() {
     try {
         isLoading = true;
-        const albums = await fetchData(`${apiUrl}/albums`)
+        const albums = await fetchData({
+            url: `${apiUrl}/albums`,
+        })
             .finally(() => isLoading = false);
         renderAlbums(albums);
     } catch (error) {
@@ -68,7 +80,11 @@ async function addAlbum() {
 
     try {
         isLoading = true;
-        await fetchData(`${apiUrl}/albums`, 'POST', album);
+        await fetchData({
+            url: `${apiUrl}/albums`, 
+            method: 'POST', 
+            body: album
+        });
         await fetchAlbums();
         setAlbumFormData({ title: '', artist: '', price: null, image: '' });
     } catch (error) {
@@ -82,7 +98,11 @@ async function updateAlbum() {
     const id = document.getElementById('albumId').value;
 
     try {
-        await fetchData(`${apiUrl}/albums/${id}`, 'PUT', album);
+        await fetchData({
+            url: `${apiUrl}/albums/${id}`, 
+            method: 'PUT', 
+            body: album
+        });
         await fetchAlbums();
         setAlbumFormData({ title: '', artist: '', price: null, image: '' });
     } catch (error) {
@@ -94,7 +114,10 @@ async function deleteAlbum(button) {
     const id = button.getAttribute('data-id');
     try {
         isLoading = true;
-        await fetchData(`${apiUrl}/albums/${id}`, 'DELETE');
+        await fetchData({
+            url: `${apiUrl}/albums/${id}`, 
+            method: 'DELETE'
+        });
         fetchAlbums().finally(() => isLoading = false);
     } catch (error) {
         alert(error.message);
@@ -108,7 +131,9 @@ async function resetAlbums() {
 async function editAlbum(button) {
     const id = button.getAttribute('data-id');
     try {
-        const album = await fetchData(`${apiUrl}/albums/${id}`);
+        const album = await fetchData({
+            url: `${apiUrl}/albums/${id}`
+        });
         setAlbumFormData(album);
     } catch (error) {
         alert(error.message);
@@ -133,11 +158,14 @@ function toggleView(viewId) {
     });
 }
 
-function getAuthHeaders() {
-    return {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${authToken}`
-    };
+function getAuthHeaders(noAuth = false) {
+    const headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    if(!noAuth) {
+        headers.append('Authorization', `Bearer ${authToken}`);
+    }
+
+    return headers;
 }
 
 function getAlbumFormData() {
@@ -165,10 +193,15 @@ function getFormData(...ids) {
     }, {});
 }
 
-async function fetchData(url, method = 'GET', body = null) {
+async function fetchData({
+    url, 
+    method = 'GET', 
+    body = null,
+    noAuth = false
+}) {
     const options = {
         method,
-        headers: getAuthHeaders()
+        headers: getAuthHeaders(noAuth)
     };
     if (body) options.body = JSON.stringify(body);
 
