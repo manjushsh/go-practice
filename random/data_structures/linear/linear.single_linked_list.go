@@ -13,10 +13,10 @@ type SingleLinkedList struct {
 	linkedListLength int
 }
 
-const MAX_SINGLE_LINKED_LIST_SIZE = 5
+const LINKED_LIST_SIZE = 5
 
 func (l *SingleLinkedList) IsFull() bool {
-	return l.linkedListLength == MAX_SINGLE_LINKED_LIST_SIZE
+	return l.linkedListLength == LINKED_LIST_SIZE
 }
 
 func (l *SingleLinkedList) Size() int {
