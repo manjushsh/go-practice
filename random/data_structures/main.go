@@ -60,6 +60,20 @@ func testAlgorithms() {
 	fmt.Println(algorithms.SumAllNumList(nil))
 	fmt.Println(algorithms.SumAllNumListRecursive(list))
 
+	// Test ReverseAString
+	fmt.Println(algorithms.ReverseAString("hello"))
+	fmt.Println(algorithms.ReverseAString2("hello"))
+	fmt.Println(algorithms.ReverseAString3("hello"))
+	fmt.Println(algorithms.ReverseAString4("知己知彼，百战不殆；不知己不知敌，一胜一负；不知敌不知己，每战必殆。"))
+
+	// Fizz Buzz
+	fmt.Println(algorithms.FizzBuzz(15))
+
+	// Decimal to any base
+	fmt.Println(algorithms.DecimalToAnyBase(6, 2))
+	fmt.Println(algorithms.DecimalToAnyBase(14, 8))
+	fmt.Println(algorithms.DecimalToAnyBase(133, 16))
+
 }
 
 func main() {

@@ -13,8 +13,6 @@ type DoubleLinkedList struct {
 	linkedListLength int
 }
 
-const MAX_DOUBLE_LINKED_LIST_SIZE = 5
-
 func NewDoubleLinkedList() *DoubleLinkedList {
 	return &DoubleLinkedList{}
 }
@@ -24,7 +22,7 @@ func (l *DoubleLinkedList) IsEmpty() bool {
 }
 
 func (l *DoubleLinkedList) IsFull() bool {
-	return l.linkedListLength == MAX_DOUBLE_LINKED_LIST_SIZE
+	return l.linkedListLength == LINKED_LIST_SIZE
 }
 
 func (l *DoubleLinkedList) createANode(numberToInsert int) *DLNode {
