@@ -18,7 +18,7 @@ func Login(c *gin.Context) {
 	}
 
 	if !services.IsValidUsername(loginRequest.Username) || !services.IsValidPassword(loginRequest.Password) {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid credentials"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid credentials for login"})
 		return
 	}
 
@@ -69,7 +69,7 @@ func Register(c *gin.Context) {
 	}
 
 	if !services.IsValidUsername(registerRequest.Username) || !services.IsValidPassword(registerRequest.Password) {
-		services.HandleError(c, nil, http.StatusBadRequest, "Invalid credentials")
+		services.HandleError(c, nil, http.StatusBadRequest, "Invalid username or password")
 		return
 	}
 
