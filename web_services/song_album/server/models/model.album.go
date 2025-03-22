@@ -4,9 +4,13 @@ package models
 // Album (A) is exported while album (a) not exported in Go.
 type Album struct {
 	ID        string  `json:"id"`
-	Title     string  `json:"title"`
-	Artist    string  `json:"artist"`
-	Price     float64 `json:"price"`
-	Image     string  `json:"image"`
-	IsDeleted bool    `json:"isdeleted"`
+	Title     string  `json:"title" bson:"title"`
+	Artist    string  `json:"artist" bson:"artist"`
+	Price     float64 `json:"price" bson:"price"`
+	Image     string  `json:"image" bson:"image"`
+	IsDeleted bool    `json:"isdeleted" bson:"isdeleted"`
+	CreatedBy string  `json:"createdby" bson:"createdby"`
+	CreatedAt string  `json:"createdat" bson:"createdat,default:currentTimestamp"`
+	UpdatedBy string  `json:"updatedby" bson:"updatedby"`
+	UpdatedAt string  `json:"updatedat" bson:"updatedat,default:currentTimestamp"`
 }

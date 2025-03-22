@@ -34,8 +34,9 @@ func AuthMiddleware() gin.HandlerFunc {
 			return
 		}
 
-		// Set claims in the context
+		// Set username and roles from claims in the context
 		c.Set("username", claims.Username)
+		c.Set("role", claims.Role)
 		c.Next()
 	}
 }

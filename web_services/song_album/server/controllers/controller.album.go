@@ -2,9 +2,11 @@ package controllers
 
 import (
 	"context"
+	"fmt"
 	"go-practice/models"
 	"go-practice/services"
 	"net/http"
+	"time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
@@ -57,6 +59,7 @@ func PostAlbums(c *gin.Context) {
 	var newAlbum models.Album
 	newAlbum.ID = GenerateUUID()
 	newAlbum.IsDeleted = false
+	newAlbum.CreatedBy = services.GetContextValue(c, "username")
 
 	if err := c.BindJSON(&newAlbum); err != nil {
 		c.IndentedJSON(http.StatusBadRequest, gin.H{"message": "invalid request"})
@@ -129,6 +132,10 @@ func UpdateAlbum(c *gin.Context) {
 		c.IndentedJSON(http.StatusBadRequest, gin.H{"message": "invalid request"})
 		return
 	}
+	updatedAlbum.UpdatedBy = services.GetContextValue(c, "username")
+	updatedAlbum.UpdatedAt = time.Now().Format(time.RFC3339)
+
+	fmt.Println("aaaaaaaggghhhhh", services.GetContextValue(c, "userid"))
 
 	mongoInstance, ok := getMongoService(c)
 	if !ok {

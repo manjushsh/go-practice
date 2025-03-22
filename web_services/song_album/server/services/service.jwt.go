@@ -3,9 +3,12 @@ package services
 
 import (
 	"go-practice/models"
+	"net/http"
 	"os"
+	"strings"
 	"time"
 
+	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt/v5"
 	// "golang.org/x/crypto/bcrypt"
 )
@@ -15,11 +18,12 @@ var jwtSecret = []byte(os.Getenv("JWT_SECRET"))
 var tokenDuration = 8 * time.Hour
 
 // GenerateJWT generates a new JWT token
-func GenerateJWT(username string) (string, error) {
+func GenerateJWT(username, role string) (string, error) {
 	claims := models.Claims{
 		Username: username,
+		Role:     role,
 		RegisteredClaims: jwt.RegisteredClaims{
-			ExpiresAt: jwt.NewNumericDate(time.Now().Add(tokenDuration)), // Token expires in 24 hours
+			ExpiresAt: jwt.NewNumericDate(time.Now().Add(tokenDuration)), // Token expires in 8 hours
 			IssuedAt:  jwt.NewNumericDate(time.Now()),
 		},
 	}
@@ -56,4 +60,36 @@ func CheckPasswordHash(password, hash string) bool {
 	// err := bcrypt.CompareHashAndPassword([]byte(hash), []byte(password))
 	// return err == nil
 	return password == hash
+}
+
+// Get a header value from the request
+func GetHeader(c *gin.Context, key string) string {
+	return c.GetHeader(key)
+}
+
+func GetContextValue(c *gin.Context, key string) string {
+	// Get value from context using the provided key
+	value, _ := c.Get(key)
+	if valueStr, ok := value.(string); ok {
+		return valueStr
+	}
+	return ""
+}
+
+func GetUserClaims(c *gin.Context) *models.Claims {
+	authHeader := GetHeader(c, "authorization")
+	if authHeader == "" {
+		c.IndentedJSON(http.StatusUnauthorized, gin.H{"message": "authorization header missing"})
+		return nil
+	}
+
+	tokenParts := strings.Split(authHeader, " ")
+	if len(tokenParts) != 2 || strings.ToLower(tokenParts[0]) != "bearer" {
+		c.IndentedJSON(http.StatusUnauthorized, gin.H{"message": "invalid authorization header format"})
+		return nil
+	}
+
+	token := tokenParts[1]
+	claims, _ := ValidateJWT(token)
+	return claims
 }

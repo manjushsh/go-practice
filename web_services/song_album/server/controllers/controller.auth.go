@@ -52,13 +52,13 @@ func Login(c *gin.Context) {
 		return
 	}
 
-	token, err := services.GenerateJWT(sanitizedUsername)
+	token, err := services.GenerateJWT(sanitizedUsername, foundUser.Role)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to generate token"})
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{"token": token})
+	c.JSON(http.StatusOK, gin.H{"token": token, "role": foundUser.Role})
 }
 
 func Register(c *gin.Context) {
@@ -107,6 +107,7 @@ func Register(c *gin.Context) {
 	}
 	registerRequest.Password = hashedPassword
 	registerRequest.Project = "go-song-album"
+	registerRequest.Role = services.RoleUser
 	registerRequest.IsDeleted = false
 
 	_, err = mongoInstance.Insert("users", registerRequest)
@@ -210,7 +211,7 @@ func DeleteUser(c *gin.Context) {
 		return
 	}
 
-	sanitizedUsername, err := services.SanitizeUsername(username)
+	sanitizedUsername, _ := services.SanitizeUsername(username)
 
 	mongoInstance, ok := services.ConnectToMongo(c)
 	if !ok {
