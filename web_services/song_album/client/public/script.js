@@ -4,6 +4,13 @@ let isLoading = false;
 
 document.addEventListener('DOMContentLoaded', () => {
     if (authToken) fetchAlbums();
+    const role = localStorage.getItem('role') || null;
+    const navbar = document.getElementById('navbar');
+    navbar.innerHTML = `
+            <h1 style="flex: 1">Song Album Manager</h1>
+            <h4 style="flex: 1; text-align: center;">Your Role: ${role ? role.charAt(0).toUpperCase() + role.slice(1) : 'Guest'}</h4>
+            <button style="margin-left: auto;" onclick="logout()">Logout</button>
+        `;
 });
 
 async function login() {
@@ -21,7 +28,7 @@ async function login() {
         authToken = data.token;
         localStorage.setItem('authToken', authToken);
         localStorage.setItem('role', data.role);
-        fetchAlbums().finally(() => isLoading = false);
+        window.location.reload();
     } catch (error) {
         alert(error.message);
     }
@@ -33,8 +40,8 @@ async function register() {
 
     try {
         await fetchData({
-            url: `${apiUrl}/auth/register`, 
-            method: 'POST', 
+            url: `${apiUrl}/auth/register`,
+            method: 'POST',
             body: { username, password },
             noAuth: true,
         });
@@ -70,7 +77,7 @@ function renderAlbums(albums) {
             </div>
             <div class="album-actions">
                 ${role === 'admin' || role === 'superadmin' ? `<button onclick="editAlbum(this)" data-id="${album.id}">Edit</button>` : ''}
-                ${role === 'admin' || role === 'superadmin' ? `<button onclick="deleteAlbum(this)" data-id="${album.id}">Delete</button>` :''}
+                ${role === 'admin' || role === 'superadmin' ? `<button onclick="deleteAlbum(this)" data-id="${album.id}">Delete</button>` : ''}
             </div>
         </div>
     `).join('');
@@ -83,8 +90,8 @@ async function addAlbum() {
     try {
         isLoading = true;
         await fetchData({
-            url: `${apiUrl}/albums`, 
-            method: 'POST', 
+            url: `${apiUrl}/albums`,
+            method: 'POST',
             body: album
         });
         await fetchAlbums();
@@ -101,8 +108,8 @@ async function updateAlbum() {
 
     try {
         await fetchData({
-            url: `${apiUrl}/albums/${id}`, 
-            method: 'PUT', 
+            url: `${apiUrl}/albums/${id}`,
+            method: 'PUT',
             body: album
         });
         await fetchAlbums();
@@ -117,7 +124,7 @@ async function deleteAlbum(button) {
     try {
         isLoading = true;
         await fetchData({
-            url: `${apiUrl}/albums/${id}`, 
+            url: `${apiUrl}/albums/${id}`,
             method: 'DELETE'
         });
         fetchAlbums().finally(() => isLoading = false);
@@ -144,6 +151,7 @@ async function editAlbum(button) {
 
 function logout() {
     localStorage.removeItem('authToken');
+    localStorage.removeItem('role');
     window.location.reload();
 }
 
@@ -163,7 +171,7 @@ function toggleView(viewId) {
 function getAuthHeaders(noAuth = false) {
     const headers = new Headers();
     headers.append('Content-Type', 'application/json');
-    if(!noAuth) {
+    if (!noAuth) {
         headers.append('Authorization', `Bearer ${authToken}`);
     }
 
@@ -196,8 +204,8 @@ function getFormData(...ids) {
 }
 
 async function fetchData({
-    url, 
-    method = 'GET', 
+    url,
+    method = 'GET',
     body = null,
     noAuth = false
 }) {
