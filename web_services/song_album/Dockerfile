@@ -19,7 +19,8 @@ WORKDIR /app/server
 RUN if [ -f go.mod ]; then go mod download; else echo "go.mod not found"; exit 1; fi
  
 # Builds the server application and outputs it as gosongalbum
-RUN go build -o gosongalbum . && chmod +x gosongalbum
+# RUN go build -o gosongalbum . && chmod +x gosongalbum
+RUN go build -tags netgo -ldflags '-s -w' -o gosongalbum
  
 # Tells Docker which network port your container listens on
 EXPOSE 8085
