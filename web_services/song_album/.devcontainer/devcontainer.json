@@ -1,7 +1,7 @@
 {
     "name": "Data Structures",
     "dockerFile": "../Dockerfile",
-    "appPort": 8000,
+    // "appPort": 8000,
     "customizations": {
         "vscode": {
             "extensions": [

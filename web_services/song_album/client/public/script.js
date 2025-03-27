@@ -20,6 +20,7 @@ async function login() {
         });
         authToken = data.token;
         localStorage.setItem('authToken', authToken);
+        localStorage.setItem('role', data.role);
         fetchAlbums().finally(() => isLoading = false);
     } catch (error) {
         alert(error.message);
@@ -57,6 +58,7 @@ async function fetchAlbums() {
 }
 
 function renderAlbums(albums) {
+    const role = localStorage.getItem('role') || null;
     const albumsDiv = document.getElementById('albums');
     albumsDiv.innerHTML = albums.map(album => `
         <div class="album" id="${album.id}">
@@ -67,8 +69,8 @@ function renderAlbums(albums) {
                 <p>$${album.price}</p>
             </div>
             <div class="album-actions">
-                <button data-id="${album.id}" onclick="editAlbum(this)">Edit</button>
-                <button data-id="${album.id}" onclick="deleteAlbum(this)">Delete</button>
+                ${role === 'admin' || role === 'superadmin' ? `<button onclick="editAlbum(this)" data-id="${album.id}">Edit</button>` : ''}
+                ${role === 'admin' || role === 'superadmin' ? `<button onclick="deleteAlbum(this)" data-id="${album.id}">Delete</button>` :''}
             </div>
         </div>
     `).join('');
