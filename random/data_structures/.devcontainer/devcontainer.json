@@ -8,6 +8,8 @@
                 "dbaeumer.vscode-eslint",
                 "esbenp.prettier-vscode",
                 "ms-azuretools.vscode-docker",
+                "golang.go",
+                "golangci.golangci-lint",
                 "ms-vscode.go"
             ],
             "settings": {
