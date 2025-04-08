@@ -43,7 +43,7 @@ go mod tidy && go mod download
 
 ### 2. Build App
 ```bash
-go build -o gitlab-stale-branch-cleaner
+rm ./gitlab-stale-branch-cleaner && go build -o gitlab-stale-branch-cleaner
 ```
 and make it executable
 ```bash
@@ -57,7 +57,7 @@ sudo mv gitlab-stale-branch-cleaner /usr/local/bin/
 
 ### 4. Run the Application: Now, run the application with the appropriate flags:
 ```bash
-./gitlab-stale-branch-cleaner --project-id="your_gitlab_project_id" --private-token="your_private_token" --stale-days-threshold=30 --dry-run --protected-branches="main,master"
+./gitlab-stale-branch-cleaner --project-id="your_gitlab_project_id" --private-token="your_private_token" --stale-days-threshold=30 --dry-run --protected-branches="main master"
 ```
 
 ## Configuration
@@ -110,6 +110,11 @@ gitlab-stale-branch-cleaner \
 or
 ```bash
 ./gitlab-stale-branch-cleaner --project-id "12345678" --private-token "glpat-xxxxxxxxx" --stale-days-threshold 30 --dry-run --protected-branches "main master"
+```
+
+if errors,
+```bash
+./gitlab-stale-branch-cleaner --project-id "12345678" --private-token "glpat-xxxxxxxxx" --stale-days-threshold 30 --dry-run --protected-branches "main,master"
 ```
 
 ## Actual Deletion Example
