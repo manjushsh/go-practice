@@ -2,6 +2,11 @@
 
 A simple command-line tool built in Go to automatically delete stale branches in a GitLab repository. The tool uses GitLab's REST API to interact with your repository and removes branches that haven't been updated in a specified number of days. It also supports a dry-run mode to show which branches would be deleted without actually performing the deletion.
 
+## TODO
+- [] Release as tool or package
+- [] Implement CI for build
+- [] Implement test cases (optional)
+
 ## Features
 
 - Deletes stale branches in GitLab repositories based on a specified days threshold.
