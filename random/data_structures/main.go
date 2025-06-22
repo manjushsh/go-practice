@@ -74,6 +74,11 @@ func testAlgorithms() {
 	fmt.Println(algorithms.DecimalToAnyBase(14, 8))
 	fmt.Println(algorithms.DecimalToAnyBase(133, 16))
 
+	// Any base to Decimal
+	fmt.Println(algorithms.AnyBaseToDecimal("110", 2))
+	fmt.Println(algorithms.AnyBaseToDecimal("20", 8))
+	fmt.Println(algorithms.AnyBaseToDecimal("59", 16))
+
 }
 
 func main() {
