@@ -5,10 +5,20 @@ import (
 
 	"github.com/manjushsh/go-practice/random/data_structures/algorithms"
 	"github.com/manjushsh/go-practice/random/data_structures/linear"
+	"github.com/manjushsh/go-practice/random/data_structures/linear/array"
 )
 
 func testLinear() {
 	fmt.Println("=== LINEAR START ===")
+
+	fmt.Println(">> ARRAY <<")
+	lowest, index := array.FindLowestNum([]int{1, 2, 3, 4, 5, 0, -1, 6})
+	if lowest == -1 && index == -1 {
+		fmt.Println("Array is empty, no lowest number found.")
+		return
+	}
+	fmt.Printf("Lowest number is %d at index %d\n", lowest, index)
+
 	fmt.Println(">> STACK <<")
 	stack := linear.NewStack()
 	stack.Push(1)
@@ -82,5 +92,6 @@ func testAlgorithms() {
 }
 
 func main() {
-	testAlgorithms()
+	testLinear()
+	// testAlgorithms()
 }
