@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"github.com/manjushsh/go-practice/random/data_structures/algorithms"
+	"github.com/manjushsh/go-practice/random/data_structures/algorithms/patterns/slidingwindow"
 	"github.com/manjushsh/go-practice/random/data_structures/linear"
 	"github.com/manjushsh/go-practice/random/data_structures/linear/array"
 )
@@ -89,9 +90,14 @@ func testAlgorithms() {
 	fmt.Println(algorithms.AnyBaseToDecimal("20", 8))
 	fmt.Println(algorithms.AnyBaseToDecimal("59", 16))
 
+	// PATTERNS
+	fmt.Println("===========	PATTERNS START	============")
+	fmt.Println(slidingwindow.SubarrayAveragePersonal([]int{1, 9, 3, 7, 5, -2}, 3))
+	fmt.Println("===========	PATTERNS END	============")
+
 }
 
 func main() {
-	testLinear()
-	// testAlgorithms()
+	// testLinear()
+	testAlgorithms()
 }
