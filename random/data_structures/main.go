@@ -93,6 +93,7 @@ func testAlgorithms() {
 	// PATTERNS
 	fmt.Println("===========	PATTERNS START	============")
 	fmt.Println(slidingwindow.SubarrayAveragePersonal([]int{1, 9, 3, 7, 5, -2}, 3))
+	fmt.Println(slidingwindow.SumOfSubArrays([]int{1, 9, 3, 7, 5, -2}, 4))
 	fmt.Println("===========	PATTERNS END	============")
 
 }
