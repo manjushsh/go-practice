@@ -5,6 +5,7 @@ import (
 
 	"github.com/manjushsh/go-practice/random/data_structures/algorithms"
 	"github.com/manjushsh/go-practice/random/data_structures/algorithms/patterns/slidingwindow"
+	"github.com/manjushsh/go-practice/random/data_structures/algorithms/patterns/twopointer"
 	"github.com/manjushsh/go-practice/random/data_structures/linear"
 	"github.com/manjushsh/go-practice/random/data_structures/linear/array"
 )
@@ -92,8 +93,13 @@ func testAlgorithms() {
 
 	// PATTERNS
 	fmt.Println("===========	PATTERNS START	============")
+
 	fmt.Println(slidingwindow.SubarrayAveragePersonal([]int{1, 9, 3, 7, 5, -2}, 3))
 	fmt.Println(slidingwindow.SumOfSubArrays([]int{1, 9, 3, 7, 5, -2}, 4))
+
+	fmt.Println(twopointer.PairWithTargetSum([]int{1, 9, 3, 7, 5, -2}, 4))
+	fmt.Println(twopointer.PairWithTargetSum([]int{1, 2, 3, 4, 5, 6, 7, 8}, 11))
+
 	fmt.Println("===========	PATTERNS END	============")
 
 }

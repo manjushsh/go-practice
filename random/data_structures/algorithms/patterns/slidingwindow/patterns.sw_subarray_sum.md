@@ -18,25 +18,69 @@ Position 3: ⬜ ⬜ [🏠3] [🏠4] [🏠5]  → Sum houses 3+4+5
 
 Instead of counting all houses each time, you just remove the house that left the window and add the new house that entered!
 
-## 📊 Step-by-Step Example
+## 📊 Step-by-Step Visual Example
 
 **Input:** Array `[1, 2, 3, 4, 5]` with window size `3`
 
-### The Smart Way (Sliding Window):
+### 🖼️ Interactive Window Visualization
 
 ```
-Step 1: [1, 2, 3] 4  5     
-        sum = 1+2+3 = 6 ✅
+┌─────────────────────────────────────────────────────┐
+│                 SLIDING WINDOW                      │
+├─────────────────────────────────────────────────────┤
+│ Array: [ 1 ] [ 2 ] [ 3 ] [ 4 ] [ 5 ]              │
+│        ┌─────────────────┐                          │
+│        │  WINDOW (k=3)   │                          │
+│        └─────────────────┘                          │
+│ Step 1: Window = [1, 2, 3]                         │
+│         Sum = 1 + 2 + 3 = 6 ✅                     │
+│         windowStart=0, windowEnd=2                  │
+└─────────────────────────────────────────────────────┘
 
-Step 2:  1 [2, 3, 4] 5     
-        sum = 6 - 1 + 4 = 9 ✅
-        (Remove 1, Add 4)
+┌─────────────────────────────────────────────────────┐
+│ Array: [ 1 ] [ 2 ] [ 3 ] [ 4 ] [ 5 ]              │
+│             ┌─────────────────┐                      │
+│             │  WINDOW (k=3)   │                      │
+│             └─────────────────┘                      │
+│ Step 2: Remove 1 ⬅️, Add 4 ➡️                      │
+│         Sum = 6 - 1 + 4 = 9 ✅                     │
+│         windowStart=1, windowEnd=3                  │
+└─────────────────────────────────────────────────────┘
 
-Step 3:  1  2 [3, 4, 5]    
-        sum = 9 - 2 + 5 = 12 ✅
-        (Remove 2, Add 5)
+┌─────────────────────────────────────────────────────┐
+│ Array: [ 1 ] [ 2 ] [ 3 ] [ 4 ] [ 5 ]              │
+│                  ┌─────────────────┐                  │
+│                  │  WINDOW (k=3)   │                  │
+│                  └─────────────────┘                  │
+│ Step 3: Remove 2 ⬅️, Add 5 ➡️                      │
+│         Sum = 9 - 2 + 5 = 12 ✅                    │
+│         windowStart=2, windowEnd=4                  │
+└─────────────────────────────────────────────────────┘
 
-Result: [6, 9, 12]
+📋 Final Result: [6, 9, 12]
+```
+
+### 🏎️ Performance Comparison Visualization
+
+```
+┌─────────────────────────────────────────────────────┐
+│                NAIVE APPROACH                       │
+├─────────────────────────────────────────────────────┤
+│ Window 1: 1+2+3 = 6     [🔢🔢🔢]                   │
+│ Window 2: 2+3+4 = 9     [🔢🔢🔢]                   │  
+│ Window 3: 3+4+5 = 12    [🔢🔢🔢]                   │
+│ Total Operations: 9     [💻💻💻💻💻💻💻💻💻]      │
+└─────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────┐
+│              SLIDING WINDOW                         │
+├─────────────────────────────────────────────────────┤
+│ Initial: 1+2+3 = 6      [🔢🔢🔢]                   │
+│ Slide 1: 6-1+4 = 9      [➖➕]                      │
+│ Slide 2: 9-2+5 = 12     [➖➕]                      │
+│ Total Operations: 7     [💻💻💻💻💻💻💻]           │
+│ Efficiency: 22% faster! 🚀                         │
+└─────────────────────────────────────────────────────┘
 ```
 
 ### The Slow Way (For Comparison):
@@ -110,37 +154,78 @@ for windowEnd := 0; windowEnd < len(originalElements); windowEnd++ {
 - Naive: 1000 × 100 = 100,000 operations
 - Sliding Window: 1000 + 1000 = 2,000 operations (50x faster!)
 
-## 🎮 Interactive Trace
+## 🎮 Interactive Algorithm Trace
 
 Let's trace through `[2, 1, 3, 4]` with window size `2`:
 
 ```
-Initial: windowStart=0, sum=0, results=[]
+┌─────────────────────────────────────────────────────────────┐
+│ INITIALIZATION                                              │
+├─────────────────────────────────────────────────────────────┤
+│ Array: [2] [1] [3] [4]                                     │
+│ windowStart = 0 🔷                                          │
+│ sum = 0                                                     │
+│ results = [ _ ] [ _ ] [ _ ]  (3 positions available)       │
+└─────────────────────────────────────────────────────────────┘
 
-windowEnd=0: [2] _ _ _
-  sum = 0 + 2 = 2
-  windowEnd(0) < windowSize-1(1) → continue
+┌─────────────────────────────────────────────────────────────┐
+│ ITERATION 1: windowEnd = 0                                 │
+├─────────────────────────────────────────────────────────────┤
+│ Array: [2] [1] [3] [4]                                     │
+│         ↑🔴 windowEnd                                       │
+│         ↑🔷 windowStart                                     │
+│                                                             │
+│ ➕ sum += originalElements[0] = 0 + 2 = 2                 │
+│ ❓ windowEnd(0) >= windowSize-1(1)? → NO                  │
+│ 📝 Continue to next iteration                              │
+└─────────────────────────────────────────────────────────────┘
 
-windowEnd=1: [2, 1] _ _  
-  sum = 2 + 1 = 3
-  windowEnd(1) >= windowSize-1(1) → save result
-  results[0] = 3
-  sum = 3 - originalElements[0] = 3 - 2 = 1
-  windowStart = 1
+┌─────────────────────────────────────────────────────────────┐
+│ ITERATION 2: windowEnd = 1                                 │
+├─────────────────────────────────────────────────────────────┤
+│ Array: [2] [1] [3] [4]                                     │
+│         ↑🔷    ↑🔴 windowEnd                               │
+│         windowStart                                         │
+│                                                             │
+│ ➕ sum += originalElements[1] = 2 + 1 = 3                 │
+│ ✅ windowEnd(1) >= windowSize-1(1)? → YES                 │
+│ 💾 results[0] = 3                                          │
+│ ➖ sum -= originalElements[0] = 3 - 2 = 1                 │
+│ ➡️ windowStart++ = 1                                       │
+│ results = [3] [ _ ] [ _ ]                                   │
+└─────────────────────────────────────────────────────────────┘
 
-windowEnd=2: _ [1, 3] _
-  sum = 1 + 3 = 4  
-  windowEnd(2) >= windowSize-1(1) → save result
-  results[1] = 4
-  sum = 4 - originalElements[1] = 4 - 1 = 3
-  windowStart = 2
+┌─────────────────────────────────────────────────────────────┐
+│ ITERATION 3: windowEnd = 2                                 │
+├─────────────────────────────────────────────────────────────┤
+│ Array: [2] [1] [3] [4]                                     │
+│              ↑🔷    ↑🔴 windowEnd                          │
+│              windowStart                                    │
+│                                                             │
+│ ➕ sum += originalElements[2] = 1 + 3 = 4                 │
+│ ✅ windowEnd(2) >= windowSize-1(1)? → YES                 │
+│ 💾 results[1] = 4                                          │
+│ ➖ sum -= originalElements[1] = 4 - 1 = 3                 │
+│ ➡️ windowStart++ = 2                                       │
+│ results = [3] [4] [ _ ]                                     │
+└─────────────────────────────────────────────────────────────┘
 
-windowEnd=3: _ _ [3, 4]
-  sum = 3 + 4 = 7
-  windowEnd(3) >= windowSize-1(1) → save result  
-  results[2] = 7
+┌─────────────────────────────────────────────────────────────┐
+│ ITERATION 4: windowEnd = 3                                 │
+├─────────────────────────────────────────────────────────────┤
+│ Array: [2] [1] [3] [4]                                     │
+│                   ↑🔷    ↑🔴 windowEnd                     │
+│                   windowStart                               │
+│                                                             │
+│ ➕ sum += originalElements[3] = 3 + 4 = 7                 │
+│ ✅ windowEnd(3) >= windowSize-1(1)? → YES                 │
+│ 💾 results[2] = 7                                          │
+│ ➖ sum -= originalElements[2] = 7 - 3 = 4                 │
+│ ➡️ windowStart++ = 3                                       │
+│ results = [3] [4] [7]                                       │
+└─────────────────────────────────────────────────────────────┘
 
-Final result: [3, 4, 7]
+🎯 Final result: [3, 4, 7] ✨
 ```
 
 ## 🔑 Key Insights
