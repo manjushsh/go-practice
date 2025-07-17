@@ -100,6 +100,8 @@ func testAlgorithms() {
 	fmt.Println(twopointer.PairWithTargetSum([]int{1, 9, 3, 7, 5, -2}, 4))
 	fmt.Println(twopointer.PairWithTargetSum([]int{1, 2, 3, 4, 5, 6, 7, 8}, 11))
 
+	fmt.Println(algorithms.SortWorst([]int{44, 2, 11, 33, 1, 1, 22, 8}))
+
 	fmt.Println("===========	PATTERNS END	============")
 
 }
